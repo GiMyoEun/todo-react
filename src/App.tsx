@@ -1,25 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState, useContext, Fragment } from "react";
+import { TodosContext } from "./store/todos-context";
+import Todos from "./components/Todos";
+import "./App.css";
+import Todo from "./models/todo";
+import NewTodo from "./components/NewTodo";
+import TodoProvider from "./store/TodoProvider";
+import UpdateTodos from "./components/UpdateTodos/UpdateTodos";
 
 function App() {
+  const todosCtx = useContext(TodosContext);
+  const [modifyModalIsActivated, setModifyModalIsActivated] = useState(false);
+  console.log(todosCtx);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <TodoProvider>
+      {todosCtx.modifyModalIsActivated && (
+        <Fragment>
+          <UpdateTodos />
+        </Fragment>
+      )}
+      <NewTodo />
+      <Todos />
+    </TodoProvider>
   );
 }
 
